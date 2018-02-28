@@ -4,21 +4,75 @@ const filterInput = document.querySelector('#filter')
 const taskList = document.querySelector('.collection');
 const clearBtn = document.querySelector('.card-action .btn')
 
-const add = (e) => {
+const getLocal = () => {
+  let tasks;
+  if(localStorage.getItem('tasks') === null) {
+    tasks = [];
+  } else {
+    tasks = JSON.parse(localStorage.getItem('tasks'));
+  }
+  for (let task of tasks) {
+    const li = document.createElement('li');
+    const text = document.createTextNode(task);
+    const link = document.createElement('a');
+    li.className = 'collection-item';
+    link.className = 'delete-item secondary-content';
+    link.innerHTML = '<i class="fa fa-trash"></i>';
+    li.appendChild(text);
+    li.appendChild(link);
+    taskList.appendChild(li);
+  };
+};
+
+const storeLocal = (task) => {
+  let tasks;
+  if(localStorage.getItem('tasks') === null) {
+    tasks = [];
+  } else {
+    tasks = JSON.parse(localStorage.getItem('tasks'));
+  }
+  tasks.push(task);
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+const removeFromLocal = (taskItem) => {
+  let tasks;
+  if(localStorage.getItem('tasks') === null) {
+    tasks = [];
+  } else {
+    tasks = JSON.parse(localStorage.getItem('tasks'));
+  }
+  tasks.forEach((task, index) => {
+    if(taskItem.textContent === task) {
+      tasks.splice(index, 1);
+    }
+  });
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+const addTask = (e) => {
   const li = document.createElement('li');
-  li.className = 'collection-item';
   const text = document.createTextNode(taskInput.value);
-  li.appendChild(text);
   const link = document.createElement('a');
+  li.className = 'collection-item';
   link.className = 'delete-item secondary-content';
   link.innerHTML = '<i class="fa fa-trash"></i>';
+  li.appendChild(text);
   li.appendChild(link);
   taskList.appendChild(li);
+  storeTask(taskInput.value);
   taskInput.value = "";
   e.preventDefault();
 };
 
-const filter = (e) => {
+const deleteTask = (e) => {
+  if (e.target.nodeName === 'I') {
+    e.target.parentElement.parentElement.remove();
+    removeFromStorage(e.target.parentElement.parentElement);
+  };
+};
+
+const filterTasks = (e) => {
   const taskItems = document.querySelectorAll('.collection-item');
   const text = e.target.value;
   const pattern = new RegExp(text, 'i');
@@ -31,23 +85,17 @@ const filter = (e) => {
   };
 };
 
-const deleteItem = (e) => {
-  if (e.target.nodeName === 'I') {
-    e.target.parentElement.parentElement.remove();
-  };
+const clearTasks = (e) => {
+  taskList.innerHTML = '';
+  localStorage.clear();
+}
+
+const loadEventListeners = () => {
+  addEventListener('DOMContentLoaded', getLocal);
+  form.addEventListener('submit', addTask);
+  filterInput.addEventListener('keyup', filterTasks);
+  taskList.addEventListener('click', deleteTask);
+  clearBtn.addEventListener('click', clearTasks);
 };
 
-const clear = (e) => taskList.innerHTML = '';
-
-const addBtnListen = () => form.addEventListener('submit', add);
-
-const filterListen = () => filterInput.addEventListener('keyup', filter);
-
-const deleteBtnListen = () => taskList.addEventListener('click', deleteItem);
-
-const clearBtnListen = () => clearBtn.addEventListener('click', clear);
-
-addBtnListen();
-filterListen();
-deleteBtnListen();
-clearBtnListen();
+loadEventListeners();
