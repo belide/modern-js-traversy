@@ -13,21 +13,26 @@
     <div class="row">
       <div class="col s12">
         <div class="card">
-          <div class="card-action">
+          <div class="card-content">
             <span class="card-title">Task List</span>
             <form id="task-form">
               <div class="input-field">
-                <input id='task'type="text" name="task" class="validate" required>
+                <input id='task'type="text" required>
                 <label for="task">New Task</label>
               </div>
               <button class="waves-effect waves-light btn" type="submit" name="add-task">Add Task</button>
             </form>
           </div>
-          <div class="card-content">
+          <div class="card-action">
+              <div class="input-field">
+                <input id='filter'type="text" class="validate" required>
+                <label for="task">Filter Tasks</label>
+              </div>
             <ul class="collection">
               <li class="collection-item">Do Laundry<a class="delete-item secondary-content"><i class="fa fa-trash"></i></a></li>
               <li class="collection-item">Go To The Gym<a class="delete-item secondary-content"><i class="fa fa-trash"></i></a></li>
             </ul>
+            <a class="waves-effect waves-light btn grey darken-4">Clear Tasks</a>
           </div>
         </div>
       </div>
