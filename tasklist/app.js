@@ -60,7 +60,7 @@ const addTask = (e) => {
   li.appendChild(text);
   li.appendChild(link);
   taskList.appendChild(li);
-  storeTask(taskInput.value);
+  storeLocal(taskInput.value);
   taskInput.value = "";
   e.preventDefault();
 };
@@ -68,7 +68,7 @@ const addTask = (e) => {
 const deleteTask = (e) => {
   if (e.target.nodeName === 'I') {
     e.target.parentElement.parentElement.remove();
-    removeFromStorage(e.target.parentElement.parentElement);
+    removeFromLocal(e.target.parentElement.parentElement);
   };
 };
 
