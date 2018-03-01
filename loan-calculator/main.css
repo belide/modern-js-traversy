@@ -1,0 +1,11 @@
+.fa-spinner {
+  display: none;
+}
+
+.results-display {
+  visibility: hidden;
+}
+
+#total-payment, #total-interest, #monthly-payment {
+  font-weight: bold;
+}
